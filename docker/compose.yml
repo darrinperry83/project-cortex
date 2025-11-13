@@ -1,0 +1,48 @@
+name: cortex-db
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: cortex-postgres
+    env_file:
+      - ./.env
+    environment:
+      - TZ=${TZ:-UTC}
+      # Optional: tune Postgres here if needed
+      # - POSTGRES_INITDB_ARGS=--encoding=UTF8 --locale=C
+    ports:
+      - "${PG_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./initdb:/docker-entrypoint-initdb.d:ro
+      - ../backups:/backups
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+    networks:
+      - cortex-net
+
+  adminer:
+    image: adminer:4
+    container_name: cortex-adminer
+    environment:
+      - ADMINER_DEFAULT_SERVER=postgres
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - cortex-net
+    profiles: ["sandbox"]  # only starts when --profile sandbox is used
+
+volumes:
+  pgdata: {}
+
+networks:
+  cortex-net: {}
