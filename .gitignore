@@ -1,0 +1,4 @@
+# Push 0 (Docker Postgres)
+docker/.env
+docker/pgdata/
+backups/
