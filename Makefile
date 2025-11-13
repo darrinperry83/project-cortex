@@ -1,5 +1,5 @@
 SHELL := /bin/bash
-COMPOSE := docker compose
+COMPOSE := docker compose -f docker/compose.yml
 ENV_FILE := docker/.env
 CONTAINER := cortex-postgres
 
@@ -7,8 +7,6 @@ CONTAINER := cortex-postgres
 DB ?= dev
 # File to restore (path under ./backups or a filename in that dir)
 FILE ?=
-
-.PHONY: db:up db:up-sandbox db:down db:logs db:psql db:shell db:backup db:restore help
 
 help:
 	@echo 'Targets:'
