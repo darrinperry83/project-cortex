@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import colors from "tailwindcss/colors";
 
 export default {
   content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
@@ -37,6 +38,13 @@ export default {
           DEFAULT: "var(--info-500)",
           500: "var(--info-500)",
         },
+
+        // Standard Tailwind colors for vision prototypes
+        neutral: colors.neutral,
+        blue: colors.blue,
+        green: colors.green,
+        red: colors.red,
+        yellow: colors.yellow,
       },
 
       fontFamily: {

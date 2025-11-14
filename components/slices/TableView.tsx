@@ -205,17 +205,15 @@ export function TableView({ sliceId, slice: propSlice }: TableViewProps) {
       const results = applyDSL(slice.dsl, blocksToQuery, allProps);
 
       // Enrich with props and paths
-      const enriched: EnrichedBlock[] = await Promise.all(
-        results.map(async (block) => {
-          const blockProps = allProps.filter((p) => p.blockId === block.id);
-          const path = await buildPath(block.id);
-          return {
-            ...block,
-            props: blockProps,
-            path,
-          };
-        })
-      );
+      const enriched: EnrichedBlock[] = results.map((block) => {
+        const blockProps = allProps.filter((p) => p.blockId === block.id);
+        const path = buildPath(block.id);
+        return {
+          ...block,
+          props: blockProps,
+          path,
+        };
+      });
 
       return enriched;
     } catch (error) {

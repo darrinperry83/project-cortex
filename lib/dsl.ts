@@ -1,196 +1,132 @@
-import type { Block, Prop } from "./types";
-import { slugify } from "./path";
+import { useStore } from "./state/store";
 
-type PredicateFn = (_block: Block, _props: Prop[]) => boolean;
+export type Row = {
+  id: string;
+  title: string;
+  type: string;
+  path: string;
+  tags: string[];
+  props: Record<string, unknown>;
+};
 
-/**
- * Parses a DSL query string and returns a predicate function
- * Supports queries like:
- * - type:heading
- * - tag:coffee
- * - path:/Cities/*
- * - prop.category=coffee
- * - prop.visited=false
- * - prop.rating>=4
- * - Multiple conditions with AND (space-separated)
- */
-export function parseDSL(dsl: string): PredicateFn {
-  const conditions = dsl
-    .trim()
-    .split(/\s+AND\s+|\s+/)
-    .filter((c) => c.length > 0);
+export function compileDSL(dsl: string): (_row: Row) => boolean {
+  const clauses = dsl
+    .split(/\s+AND\s+/i)
+    .map((c) => c.trim())
+    .filter(Boolean);
 
-  const predicates: PredicateFn[] = conditions.map(parseCondition);
-
-  // Return a function that checks all predicates (AND logic)
-  return (block: Block, props: Prop[]) => {
-    return predicates.every((predicate) => predicate(block, props));
-  };
-}
-
-/**
- * Parses a single condition and returns a predicate function
- */
-function parseCondition(condition: string): PredicateFn {
-  // Type filter: type:heading
-  if (condition.startsWith("type:")) {
-    const type = condition.substring(5);
-    return (block: Block, _props: Prop[]) => block.type === type;
-  }
-
-  // Tag filter: tag:coffee
-  if (condition.startsWith("tag:")) {
-    const tag = condition.substring(4);
-    return (block: Block, _props: Prop[]) => block.tags.includes(tag);
-  }
-
-  // Path filter: path:/Cities/* or path:/Cities/Tokyo
-  if (condition.startsWith("path:")) {
-    const pathPattern = condition.substring(5);
-    return createPathPredicate(pathPattern);
-  }
-
-  // Property filter: prop.key=value or prop.key>=value
-  if (condition.startsWith("prop.")) {
-    return createPropertyPredicate(condition);
-  }
-
-  // Unknown condition - return false
-  console.warn(`Unknown DSL condition: ${condition}`);
-  return (_block: Block, _props: Prop[]) => false;
-}
-
-/**
- * Creates a predicate for path matching with glob support
- */
-function createPathPredicate(pathPattern: string): PredicateFn {
-  const parts = pathPattern.replace(/^#?\/?/, "").split("/");
-  const hasGlob = parts.some((p) => p === "*");
-
-  return (block: Block, _props: Prop[]) => {
-    // We need to build the path asynchronously, so we'll cache it
-    // For now, we'll use a synchronous approximation
-    // In a real implementation, you might want to pre-compute paths
-    // or use a different approach
-
-    // This is a simplified version that matches based on block hierarchy
-    // A full implementation would need async support or pre-computed paths
-    if (hasGlob) {
-      // For glob patterns, we do a simpler check
-      // Check if any part of the pattern matches the block's title
-      const slugifiedTitle = block.title ? slugify(block.title) : "";
-      return parts.some((part) => {
-        if (part === "*") return true;
-        return slugify(part) === slugifiedTitle;
-      });
-    } else {
-      // Exact path matching - for now, just check the last part
-      const lastPart = parts[parts.length - 1];
-      const slugifiedTitle = block.title ? slugify(block.title) : "";
-      return slugify(lastPart) === slugifiedTitle;
+  return (row: Row) => {
+    for (const c of clauses) {
+      // path:/A/*, type:todo, tag:coffee, prop.key=value
+      const m = c.match(/^(\w[\w.]*?)\s*[:=]\s*(.+)$/);
+      if (!m) continue;
+      const key = m[1],
+        val = m[2];
+      if (key === "path") {
+        const pat = val.replace(/^\/?/, "");
+        const rx = new RegExp(
+          "^" + pat.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace("\\*", ".*") + "$",
+          "i"
+        );
+        if (!rx.test(row.path.replace(/^#\//, ""))) return false;
+      } else if (key === "type") {
+        if (row.type.toLowerCase() !== val.toLowerCase()) return false;
+      } else if (key === "tag") {
+        if (!row.tags.map((t) => t.toLowerCase()).includes(val.toLowerCase())) return false;
+      } else if (key.startsWith("prop.")) {
+        const pkey = key.slice(5);
+        const v = (row.props ?? {})[pkey];
+        if (v === undefined) return false;
+        // try number compare
+        const num = Number(val);
+        if (!Number.isNaN(num) && typeof v === "number") {
+          if (v !== num) return false;
+        } else {
+          if (String(v).toLowerCase() !== val.toLowerCase()) return false;
+        }
+      }
     }
+    return true;
   };
 }
 
-/**
- * Creates a predicate for property matching with comparison operators
- */
-function createPropertyPredicate(condition: string): PredicateFn {
-  // Extract: prop.key OPERATOR value
-  const propPrefix = "prop.";
-  const withoutPrefix = condition.substring(propPrefix.length);
-
-  // Match operators: >=, <=, >, <, =
-  const operatorMatch = withoutPrefix.match(/(>=|<=|>|<|=)/);
-  if (!operatorMatch) {
-    console.warn(`Invalid property condition: ${condition}`);
-    return () => false;
+export function rowsFromStore(scope?: { rootBlockId?: string }) {
+  const st = useStore.getState();
+  const collect: string[] = [];
+  function walk(id: string) {
+    collect.push(id);
+    for (const c of st.children[id] ?? []) walk(c);
   }
-
-  const operator = operatorMatch[1];
-  const operatorIndex = operatorMatch.index!;
-
-  const key = withoutPrefix.substring(0, operatorIndex);
-  const valueStr = withoutPrefix.substring(operatorIndex + operator.length);
-
-  return (block: Block, props: Prop[]) => {
-    const prop = props.find((p) => p.blockId === block.id && p.key === key);
-    if (!prop) return false;
-
-    return comparePropertyValue(prop, operator, valueStr);
-  };
-}
-
-/**
- * Compares a property value with a target value using the specified operator
- */
-function comparePropertyValue(prop: Prop, operator: string, valueStr: string): boolean {
-  // Determine the actual value based on kind
-  let actualValue: string | number | boolean | null = null;
-
-  switch (prop.kind) {
-    case "string":
-      actualValue = prop.s ?? null;
-      break;
-    case "number":
-      actualValue = prop.n ?? null;
-      break;
-    case "boolean":
-      actualValue = prop.b ?? null;
-      break;
-    case "date":
-    case "datetime":
-      actualValue = prop.d ?? null;
-      break;
-    case "taglist":
-      actualValue = prop.t ?? null;
-      break;
-    default:
-      return false;
+  if (scope?.rootBlockId) walk(scope.rootBlockId);
+  else {
+    for (const id of st.rootOrder) walk(id);
   }
-
-  if (actualValue === null) return false;
-
-  // Parse target value based on property kind
-  let targetValue: string | number | boolean;
-
-  if (prop.kind === "number") {
-    targetValue = parseFloat(valueStr);
-    if (isNaN(targetValue)) return false;
-  } else if (prop.kind === "boolean") {
-    targetValue = valueStr.toLowerCase() === "true";
-  } else {
-    targetValue = valueStr;
-  }
-
-  // Perform comparison
-  switch (operator) {
-    case "=":
-      return actualValue === targetValue;
-    case ">":
-      return actualValue > targetValue;
-    case "<":
-      return actualValue < targetValue;
-    case ">=":
-      return actualValue >= targetValue;
-    case "<=":
-      return actualValue <= targetValue;
-    default:
-      return false;
-  }
-}
-
-/**
- * Applies a DSL query to an array of blocks and their properties
- * @param dsl The query string
- * @param blocks Array of blocks to filter
- * @param props Array of all properties
- * @returns Filtered blocks that match the query
- */
-export function applyDSL(dsl: string, blocks: Block[], props: Prop[]): Block[] {
-  const predicate = parseDSL(dsl);
-  return blocks.filter((block) => {
-    const blockProps = props.filter((p) => p.blockId === block.id);
-    return predicate(block, blockProps);
+  return collect.map((id) => {
+    const b = st.blocks[id];
+    const props: Record<string, unknown> = {};
+    Object.values(st.props).forEach((p) => {
+      if (p.blockId === id) {
+        if (p.value.kind === "string") props[p.key] = p.value.s;
+        else if (p.value.kind === "number") props[p.key] = p.value.n;
+        else if (p.value.kind === "boolean") props[p.key] = p.value.b;
+        else if (p.value.kind === "date") props[p.key] = p.value.d;
+        else if (p.value.kind === "datetime") props[p.key] = p.value.t;
+        else if (p.value.kind === "taglist") props[p.key] = p.value.s;
+        else if (p.value.kind === "json") props[p.key] = p.value.j;
+      }
+    });
+    return {
+      id,
+      title: b.title ?? "",
+      type: b.type,
+      path: useStore.getState().buildPath(id),
+      tags: b.tags,
+      props,
+    };
   });
+}
+
+// Backward compatibility for Push 1.01
+export function parseDSL(dsl: string) {
+  return compileDSL(dsl);
+}
+
+export function applyDSL(dsl: string, blocks?: any[], props?: any[]): any[] {
+  // If blocks are provided (old Dexie-based code), convert them to Rows and filter
+  if (blocks && blocks.length > 0) {
+    const st = useStore.getState();
+    const rows = blocks.map((b: any) => {
+      const blockProps: Record<string, unknown> = {};
+      if (props) {
+        props
+          .filter((p) => p.blockId === b.id)
+          .forEach((p) => {
+            if (p.kind === "string") blockProps[p.key] = p.s;
+            else if (p.kind === "number") blockProps[p.key] = p.n;
+            else if (p.kind === "boolean") blockProps[p.key] = p.b;
+            else if (p.kind === "date") blockProps[p.key] = p.d;
+            else if (p.kind === "datetime") blockProps[p.key] = p.t;
+            else if (p.kind === "taglist") blockProps[p.key] = p.s;
+            else if (p.kind === "json") blockProps[p.key] = p.j;
+          });
+      }
+      return {
+        id: b.id,
+        title: b.title ?? "",
+        type: b.type,
+        path: st.buildPath ? st.buildPath(b.id) : "",
+        tags: b.tags ?? [],
+        props: blockProps,
+      };
+    });
+    const filter = compileDSL(dsl);
+    const filtered = rows.filter(filter);
+    // Convert back to blocks for backward compatibility
+    return filtered.map((row) => blocks.find((b) => b.id === row.id)).filter(Boolean);
+  }
+
+  // Otherwise use the store (new Zustand-based code)
+  const filter = compileDSL(dsl);
+  const rows = rowsFromStore();
+  return rows.filter(filter);
 }
