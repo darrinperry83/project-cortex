@@ -4,6 +4,7 @@ module.exports = {
   extends: ["next/core-web-vitals", "eslint:recommended", "plugin:react/recommended", "prettier"],
   parserOptions: { ecmaVersion: "latest", sourceType: "module" },
   rules: {
-    "react/react-in-jsx-scope": "off"
+    "react/react-in-jsx-scope": "off",
+    "no-unused-vars": ["error", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }]
   }
 };

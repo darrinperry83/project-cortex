@@ -1,0 +1,393 @@
+{
+  "blocks": [
+    {
+      "id": "root-cities",
+      "parentId": null,
+      "type": "heading",
+      "title": "Cities",
+      "level": 1,
+      "sort": 0,
+      "tags": ["travel"],
+      "createdAt": "2025-01-01T00:00:00.000Z",
+      "updatedAt": "2025-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "city-tokyo",
+      "parentId": "root-cities",
+      "type": "heading",
+      "title": "Tokyo",
+      "level": 2,
+      "sort": 0,
+      "tags": ["japan", "asia"],
+      "createdAt": "2025-01-01T00:00:00.000Z",
+      "updatedAt": "2025-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "coffee-blue-bottle-tokyo",
+      "parentId": "city-tokyo",
+      "type": "paragraph",
+      "title": "Blue Bottle Coffee",
+      "content": "Minimalist coffee shop in Roppongi. Great flat white.",
+      "level": 3,
+      "sort": 0,
+      "tags": ["coffee"],
+      "createdAt": "2025-01-02T00:00:00.000Z",
+      "updatedAt": "2025-01-02T00:00:00.000Z"
+    },
+    {
+      "id": "coffee-onibus-tokyo",
+      "parentId": "city-tokyo",
+      "type": "paragraph",
+      "title": "Onibus Coffee",
+      "content": "Local roaster in Nakameguro. Amazing single origin pour-overs.",
+      "level": 3,
+      "sort": 1,
+      "tags": ["coffee"],
+      "createdAt": "2025-01-02T00:00:00.000Z",
+      "updatedAt": "2025-01-02T00:00:00.000Z"
+    },
+    {
+      "id": "city-kyoto",
+      "parentId": "root-cities",
+      "type": "heading",
+      "title": "Kyoto",
+      "level": 2,
+      "sort": 1,
+      "tags": ["japan", "asia"],
+      "createdAt": "2025-01-01T00:00:00.000Z",
+      "updatedAt": "2025-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "coffee-weekenders-kyoto",
+      "parentId": "city-kyoto",
+      "type": "paragraph",
+      "title": "Weekenders Coffee",
+      "content": "Beautiful space near Kiyomizu-dera temple. Must try their latte.",
+      "level": 3,
+      "sort": 0,
+      "tags": ["coffee"],
+      "createdAt": "2025-01-03T00:00:00.000Z",
+      "updatedAt": "2025-01-03T00:00:00.000Z"
+    },
+    {
+      "id": "coffee-kurasu-kyoto",
+      "parentId": "city-kyoto",
+      "type": "paragraph",
+      "title": "Kurasu Kyoto",
+      "content": "Specialty coffee shop and roastery. Very friendly staff.",
+      "level": 3,
+      "sort": 1,
+      "tags": ["coffee"],
+      "createdAt": "2025-01-03T00:00:00.000Z",
+      "updatedAt": "2025-01-03T00:00:00.000Z"
+    },
+    {
+      "id": "root-trading",
+      "parentId": null,
+      "type": "heading",
+      "title": "Trading Strategies",
+      "level": 1,
+      "sort": 1,
+      "tags": ["trading", "finance"],
+      "createdAt": "2025-01-05T00:00:00.000Z",
+      "updatedAt": "2025-01-05T00:00:00.000Z"
+    },
+    {
+      "id": "strategy-volume-profile",
+      "parentId": "root-trading",
+      "type": "paragraph",
+      "title": "Volume Profile Breakout",
+      "content": "Look for high volume nodes on the volume profile. Enter on breakout above HVN with tight stop below.",
+      "level": 2,
+      "sort": 0,
+      "tags": ["daytrading", "technical-analysis"],
+      "createdAt": "2025-01-05T00:00:00.000Z",
+      "updatedAt": "2025-01-05T00:00:00.000Z"
+    },
+    {
+      "id": "strategy-breakout",
+      "parentId": "root-trading",
+      "type": "paragraph",
+      "title": "Morning Range Breakout",
+      "content": "Wait for first hour to establish range. Enter on breakout of high/low with volume confirmation.",
+      "level": 2,
+      "sort": 1,
+      "tags": ["daytrading", "breakout"],
+      "createdAt": "2025-01-05T00:00:00.000Z",
+      "updatedAt": "2025-01-05T00:00:00.000Z"
+    },
+    {
+      "id": "strategy-mean-reversion",
+      "parentId": "root-trading",
+      "type": "paragraph",
+      "title": "Mean Reversion at VWAP",
+      "content": "Watch for price to deviate significantly from VWAP. Enter when price returns toward VWAP with momentum.",
+      "level": 2,
+      "sort": 2,
+      "tags": ["daytrading", "mean-reversion"],
+      "createdAt": "2025-01-06T00:00:00.000Z",
+      "updatedAt": "2025-01-06T00:00:00.000Z"
+    },
+    {
+      "id": "root-views",
+      "parentId": null,
+      "type": "heading",
+      "title": "Views",
+      "level": 1,
+      "sort": 2,
+      "tags": ["meta"],
+      "createdAt": "2025-01-01T00:00:00.000Z",
+      "updatedAt": "2025-01-01T00:00:00.000Z"
+    }
+  ],
+  "props": [
+    {
+      "id": "prop-blue-bottle-category",
+      "blockId": "coffee-blue-bottle-tokyo",
+      "key": "category",
+      "kind": "string",
+      "s": "coffee"
+    },
+    {
+      "id": "prop-blue-bottle-visited",
+      "blockId": "coffee-blue-bottle-tokyo",
+      "key": "visited",
+      "kind": "boolean",
+      "b": false
+    },
+    {
+      "id": "prop-blue-bottle-rating",
+      "blockId": "coffee-blue-bottle-tokyo",
+      "key": "rating",
+      "kind": "number",
+      "n": 4.5
+    },
+    {
+      "id": "prop-blue-bottle-price",
+      "blockId": "coffee-blue-bottle-tokyo",
+      "key": "price",
+      "kind": "string",
+      "s": "$$"
+    },
+    {
+      "id": "prop-onibus-category",
+      "blockId": "coffee-onibus-tokyo",
+      "key": "category",
+      "kind": "string",
+      "s": "coffee"
+    },
+    {
+      "id": "prop-onibus-visited",
+      "blockId": "coffee-onibus-tokyo",
+      "key": "visited",
+      "kind": "boolean",
+      "b": true
+    },
+    {
+      "id": "prop-onibus-rating",
+      "blockId": "coffee-onibus-tokyo",
+      "key": "rating",
+      "kind": "number",
+      "n": 5.0
+    },
+    {
+      "id": "prop-onibus-price",
+      "blockId": "coffee-onibus-tokyo",
+      "key": "price",
+      "kind": "string",
+      "s": "$"
+    },
+    {
+      "id": "prop-weekenders-category",
+      "blockId": "coffee-weekenders-kyoto",
+      "key": "category",
+      "kind": "string",
+      "s": "coffee"
+    },
+    {
+      "id": "prop-weekenders-visited",
+      "blockId": "coffee-weekenders-kyoto",
+      "key": "visited",
+      "kind": "boolean",
+      "b": false
+    },
+    {
+      "id": "prop-weekenders-rating",
+      "blockId": "coffee-weekenders-kyoto",
+      "key": "rating",
+      "kind": "number",
+      "n": 4.0
+    },
+    {
+      "id": "prop-weekenders-price",
+      "blockId": "coffee-weekenders-kyoto",
+      "key": "price",
+      "kind": "string",
+      "s": "$$"
+    },
+    {
+      "id": "prop-kurasu-category",
+      "blockId": "coffee-kurasu-kyoto",
+      "key": "category",
+      "kind": "string",
+      "s": "coffee"
+    },
+    {
+      "id": "prop-kurasu-visited",
+      "blockId": "coffee-kurasu-kyoto",
+      "key": "visited",
+      "kind": "boolean",
+      "b": true
+    },
+    {
+      "id": "prop-kurasu-rating",
+      "blockId": "coffee-kurasu-kyoto",
+      "key": "rating",
+      "kind": "number",
+      "n": 4.8
+    },
+    {
+      "id": "prop-kurasu-price",
+      "blockId": "coffee-kurasu-kyoto",
+      "key": "price",
+      "kind": "string",
+      "s": "$$"
+    },
+    {
+      "id": "prop-volume-profile-setup",
+      "blockId": "strategy-volume-profile",
+      "key": "setup",
+      "kind": "string",
+      "s": "volume-profile"
+    },
+    {
+      "id": "prop-volume-profile-risk-reward",
+      "blockId": "strategy-volume-profile",
+      "key": "risk_reward",
+      "kind": "number",
+      "n": 2.5
+    },
+    {
+      "id": "prop-volume-profile-timeframe",
+      "blockId": "strategy-volume-profile",
+      "key": "timeframe",
+      "kind": "string",
+      "s": "5m"
+    },
+    {
+      "id": "prop-volume-profile-winrate",
+      "blockId": "strategy-volume-profile",
+      "key": "winrate",
+      "kind": "number",
+      "n": 0.65
+    },
+    {
+      "id": "prop-breakout-setup",
+      "blockId": "strategy-breakout",
+      "key": "setup",
+      "kind": "string",
+      "s": "breakout"
+    },
+    {
+      "id": "prop-breakout-risk-reward",
+      "blockId": "strategy-breakout",
+      "key": "risk_reward",
+      "kind": "number",
+      "n": 3.0
+    },
+    {
+      "id": "prop-breakout-timeframe",
+      "blockId": "strategy-breakout",
+      "key": "timeframe",
+      "kind": "string",
+      "s": "1h"
+    },
+    {
+      "id": "prop-breakout-winrate",
+      "blockId": "strategy-breakout",
+      "key": "winrate",
+      "kind": "number",
+      "n": 0.55
+    },
+    {
+      "id": "prop-mean-reversion-setup",
+      "blockId": "strategy-mean-reversion",
+      "key": "setup",
+      "kind": "string",
+      "s": "mean-reversion"
+    },
+    {
+      "id": "prop-mean-reversion-risk-reward",
+      "blockId": "strategy-mean-reversion",
+      "key": "risk_reward",
+      "kind": "number",
+      "n": 2.0
+    },
+    {
+      "id": "prop-mean-reversion-timeframe",
+      "blockId": "strategy-mean-reversion",
+      "key": "timeframe",
+      "kind": "string",
+      "s": "15m"
+    },
+    {
+      "id": "prop-mean-reversion-winrate",
+      "blockId": "strategy-mean-reversion",
+      "key": "winrate",
+      "kind": "number",
+      "n": 0.70
+    }
+  ],
+  "slices": [
+    {
+      "id": "slice-coffee-shops",
+      "blockId": "root-views",
+      "name": "Coffee Shops",
+      "scope": "global",
+      "dsl": "prop.category=coffee",
+      "columns": ["title", "category", "rating", "visited", "price"],
+      "sort": { "by": "rating", "dir": "desc" },
+      "groupBy": null
+    },
+    {
+      "id": "slice-unvisited-coffee",
+      "blockId": "root-views",
+      "name": "Unvisited Coffee Shops",
+      "scope": "global",
+      "dsl": "prop.category=coffee AND prop.visited=false",
+      "columns": ["title", "rating", "price"],
+      "sort": { "by": "rating", "dir": "desc" },
+      "groupBy": null
+    },
+    {
+      "id": "slice-high-rated",
+      "blockId": "root-views",
+      "name": "High Rated Coffee (4.5+)",
+      "scope": "global",
+      "dsl": "prop.category=coffee AND prop.rating>=4.5",
+      "columns": ["title", "rating", "visited"],
+      "sort": { "by": "rating", "dir": "desc" },
+      "groupBy": null
+    },
+    {
+      "id": "slice-trading-strategies",
+      "blockId": "root-views",
+      "name": "Trading Strategies",
+      "scope": { "rootBlockId": "root-trading" },
+      "dsl": "prop.setup=volume-profile OR prop.setup=breakout OR prop.setup=mean-reversion",
+      "columns": ["title", "setup", "risk_reward", "winrate", "timeframe"],
+      "sort": { "by": "winrate", "dir": "desc" },
+      "groupBy": "setup"
+    },
+    {
+      "id": "slice-high-rr-strategies",
+      "blockId": "root-views",
+      "name": "High R:R Strategies (2.5+)",
+      "scope": { "rootBlockId": "root-trading" },
+      "dsl": "prop.risk_reward>=2.5",
+      "columns": ["title", "risk_reward", "winrate"],
+      "sort": { "by": "risk_reward", "dir": "desc" },
+      "groupBy": null
+    }
+  ]
+}
