@@ -1,18 +1,31 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useStore } from "@/lib/state/store";
-import { searchHeaders } from "@/lib/fuzzy";
+import { Block } from "@/lib/state/store";
 
 export default function RefileDemo() {
   const [query, setQuery] = useState("");
   const [path, setPath] = useState("#Cities/Tokyo");
   const [mode, setMode] = useState<"drop" | "anchor">("drop");
+  const [results, setResults] = useState<Block[]>([]);
   const ensurePath = useStore((s) => s.ensurePath);
   const moveBlock = useStore((s) => s.moveBlock);
   const selection = useStore((s) => s.selection);
   const buildPath = useStore((s) => s.buildPath);
+  const blocks = useStore((s) => s.blocks);
 
-  const results = useMemo(() => (query ? searchHeaders(query) : []), [query]);
+  useEffect(() => {
+    if (!query) {
+      setResults([]);
+      return;
+    }
+    const items = Object.values(blocks).filter(
+      (b) =>
+        (b.type === "heading" || b.type === "todo") &&
+        b.title?.toLowerCase().includes(query.toLowerCase())
+    );
+    setResults(items);
+  }, [query, blocks]);
 
   function refileToExisting(id: string) {
     if (!selection) return;

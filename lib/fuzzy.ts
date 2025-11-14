@@ -1,9 +1,8 @@
 import Fuse from "fuse.js";
-import { useStore } from "./state/store";
+import { db } from "./db/dexie";
 
-export function searchHeaders(query: string) {
-  const st = useStore.getState();
-  const items = Object.values(st.blocks).filter((b) => b.type === "heading" || b.type === "todo");
+export async function searchHeaders(query: string) {
+  const items = await db.blocks.filter((b) => b.type === "heading" || b.type === "todo").toArray();
   const fuse = new Fuse(items, { keys: ["title"], threshold: 0.3, ignoreLocation: true });
   return fuse.search(query).map((r) => r.item);
 }

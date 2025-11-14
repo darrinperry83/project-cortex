@@ -11,6 +11,7 @@ export function Topbar() {
           Cortex
         </Link>
         <nav className="text-sm text-neutral-300 flex items-center gap-3">
+          <Link href="/editor">Editor</Link>
           <Link href="/agenda">Agenda</Link>
           <Link href="/projects">Projects</Link>
           <Link href="/notes">Notes</Link>

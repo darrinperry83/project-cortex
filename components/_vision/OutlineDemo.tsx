@@ -22,9 +22,9 @@ export default function OutlineDemo() {
     st.addBlock({ type: "heading", title: "Volume-Profile", parentId: strat as any });
   }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     seedIfEmpty();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
