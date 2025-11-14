@@ -35,20 +35,27 @@ export default function CaptureDemo() {
     );
   return (
     <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
-      <div className="w-[640px] rounded-md bg-neutral-900 p-4 border border-neutral-800">
-        <h3 className="text-lg font-semibold mb-2">Capture</h3>
+      <div className="w-[640px] rounded-md bg-neutral-900 p-6 border border-neutral-700 shadow-xl">
+        <h3 className="text-lg font-semibold mb-4 text-neutral-100">Capture</h3>
         <input
           autoFocus
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="t Title #Path/Sub due 2026-05-01 @tag prop.key=value"
-          className="w-full bg-neutral-800 p-3 rounded outline-none"
+          className="w-full bg-neutral-800 text-neutral-100 placeholder:text-neutral-500 p-3 rounded outline-none border border-neutral-700 focus:border-blue-500 transition-colors"
+          spellCheck={false}
         />
-        <div className="mt-3 flex justify-end gap-2">
-          <button className="rounded border px-3 py-1" onClick={() => setOpen(false)}>
+        <div className="mt-4 flex justify-end gap-2">
+          <button
+            className="rounded border border-neutral-600 px-4 py-2 text-neutral-300 hover:bg-neutral-800 hover:text-neutral-100 transition-colors"
+            onClick={() => setOpen(false)}
+          >
             Cancel
           </button>
-          <button className="rounded bg-brand-600 px-3 py-1" onClick={submit}>
+          <button
+            className="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-500 transition-colors font-medium"
+            onClick={submit}
+          >
             Create
           </button>
         </div>
