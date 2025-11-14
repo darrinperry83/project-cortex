@@ -1,0 +1,108 @@
+/**
+ * Design System Tokens
+ * Project Cortex - Push 1.02
+ *
+ * CSS custom properties for colors, typography, spacing, and motion.
+ * Supports automatic dark/light theme switching via prefers-color-scheme.
+ */
+
+:root {
+  /* ============================================================
+     Color Baseline (Dark mode default)
+     ============================================================ */
+  --color-bg: #0b0f14; /* neutral-950 */
+  --color-surface: #0f141b; /* neutral-900 */
+  --color-text: #e6eaf2; /* neutral-100 */
+  --color-muted: #9aa4b2; /* neutral-400 */
+  --color-border: #222935; /* neutral-800 */
+
+  /* ============================================================
+     Brand / Accents
+     ============================================================ */
+  --brand-500: #2e90fa;
+  --brand-600: #1b6fd8;
+  --brand-700: #1459ae;
+
+  /* ============================================================
+     Semantic Colors
+     ============================================================ */
+  --ok-500: #22c55e;
+  --warn-500: #f59e0b;
+  --danger-500: #ef4444;
+  --info-500: #38bdf8;
+
+  /* ============================================================
+     Typography
+     ============================================================ */
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial,
+    "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  --font-mono:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+    monospace;
+
+  /* Type scale */
+  --text-xs: 0.75rem; /* 12px */
+  --text-sm: 0.875rem; /* 14px */
+  --text-md: 1rem; /* 16px */
+  --text-lg: 1.125rem; /* 18px */
+  --text-xl: 1.25rem; /* 20px */
+  --text-2xl: 1.5rem; /* 24px */
+
+  /* ============================================================
+     Spacing Scale
+     ============================================================ */
+  --space-1: 0.25rem; /* 4px */
+  --space-2: 0.5rem; /* 8px */
+  --space-3: 0.75rem; /* 12px */
+  --space-4: 1rem; /* 16px */
+  --space-6: 1.5rem; /* 24px */
+  --space-8: 2rem; /* 32px */
+
+  /* ============================================================
+     Border Radius
+     ============================================================ */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+
+  /* ============================================================
+     Shadows
+     ============================================================ */
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-2: 0 6px 18px rgba(0, 0, 0, 0.35);
+
+  /* ============================================================
+     Motion & Easing
+     ============================================================ */
+  --ease-emph: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --dur-fast: 120ms;
+  --dur-med: 200ms;
+  --dur-slow: 300ms;
+}
+
+/**
+ * Light Mode Overrides
+ * Automatically applied when user's system prefers light color scheme
+ */
+@media (prefers-color-scheme: light) {
+  :root {
+    --color-bg: #ffffff;
+    --color-surface: #fbfbfc;
+    --color-text: #0c1116;
+    --color-muted: #475569;
+    --color-border: #e2e8f0;
+  }
+}
+
+/**
+ * Reduced Motion Support
+ * Respects user's motion preferences for accessibility
+ */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0ms;
+    --dur-med: 0ms;
+    --dur-slow: 0ms;
+  }
+}

@@ -1,11 +1,9 @@
+/* Import design system tokens */
+@import "./tokens.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-:root {
-  --bg: #0b0f14;
-  --text: #e6eaf2;
-}
 
 html,
 body {
@@ -13,7 +11,10 @@ body {
 }
 
 body {
-  @apply bg-neutral-950 text-neutral-100 antialiased;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  @apply antialiased;
 }
 
 a {

@@ -135,3 +135,60 @@ Create powerful queries to filter blocks:
 - Radix UI for accessible dialogs and components
 - cmdk for command palette
 - Service Worker in production builds only
+
+## Push 1.02 — End-State UI Vision
+
+Interactive prototypes demonstrating the complete UI vision: Org-grade outline power, Zettelkasten knowledge flow, and modern PWA UX.
+
+### Vision Prototypes
+
+Visit **http://localhost:3000/vision/overview** to explore all interactive prototypes.
+
+**Available Prototypes**:
+
+- **/vision/capture** - NLP-powered quick capture with smart parsing
+- **/vision/refile** - Fuzzy search path picker with Drop/Anchor modes
+- **/vision/outline** - Org-mode style editor with fold/zoom/properties
+- **/vision/slices** - Query builder with live table preview
+- **/vision/agenda** - Task views with scoring and filtering
+- **/vision/meeting** - Meeting mode with pre-flight and action harvesting
+- **/vision/collections** - Low-code type/field builder
+- **/vision/settings** - Theme, density, keyboard, and i18n controls
+
+### Design System
+
+**Tokens**: CSS custom properties for colors, typography, spacing, motion
+**Components**: 7 base components in `components/ui/` (Button, Input, Card, Dialog, Pill, Toolbar, Textarea)
+**Themes**: Automatic dark/light mode via `prefers-color-scheme`
+
+Test the design system at **http://localhost:3000/\_test-design-system**
+
+### Documentation
+
+- **`/docs/ui-vision.md`** - Complete UI vision narrative with screen-by-screen walkthrough
+- **`/docs/ux-keyboard-map.md`** - Comprehensive keyboard shortcuts reference
+- **`/docs/ux-components.md`** - Component API documentation and usage patterns
+
+### Key Features
+
+- **Keyboard-First**: All interactions operable via keyboard (see `/docs/ux-keyboard-map.md`)
+- **Accessible**: WCAG AA+ compliant, proper ARIA, focus management
+- **Responsive**: Mobile-first with 44px touch targets
+- **Themeable**: CSS variables support dark/light modes
+- **Performant**: Virtualized lists, optimized bundle sizes
+
+### Design Principles
+
+1. **Keyboard-First** - Power users can navigate entirely without mouse
+2. **Progressive Disclosure** - Complexity revealed only when needed
+3. **Consistent Visual Language** - Predictable patterns across the app
+4. **Fast Feedback** - Real-time updates, instant responses
+5. **Accessible by Default** - Screen reader support, reduced motion, high contrast
+
+### Technical Stack
+
+- **Design Tokens**: CSS custom properties in `/styles/tokens.css`
+- **Tailwind Config**: Token mappings in `tailwind.config.ts`
+- **Base Components**: TypeScript + Radix UI primitives
+- **Mock Data**: Realistic demo data in `lib/mock-data.ts`
+- **No Persistence**: Prototypes are frontend-only for UX validation
