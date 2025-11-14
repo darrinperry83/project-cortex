@@ -2,3 +2,21 @@
 docker/.env
 docker/pgdata/
 backups/
+
+# Push 1 (Next.js)
+node_modules/
+.next/
+out/
+.DS_Store
+*.log
+npm-debug.log*
+.pnpm-debug.log*
+.env*.local
+*.tsbuildinfo
+next-env.d.ts
+.vercel
+docker/.env.bak
+# PWA generated files
+public/sw.js
+public/workbox-*.js
+node_modules
