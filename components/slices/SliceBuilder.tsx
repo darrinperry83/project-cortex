@@ -82,7 +82,7 @@ export function SliceBuilder({ sliceId, onSave, onCancel, isDialog = true }: Sli
         setScopeType("scoped");
         setRootBlockId(existingSlice.scope.rootBlockId);
         // Load the path for this blockId
-        buildPath(existingSlice.scope.rootBlockId).then(setRootPath);
+        setRootPath(buildPath(existingSlice.scope.rootBlockId));
       }
 
       if (existingSlice.sort) {
